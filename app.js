@@ -1,0 +1,33 @@
+const express = require("express");
+const helmet = require("helmet");
+const cors = require("cors");
+const rateLimit = require("express-rate-limit");
+const  ENV= require("./src/config/env");
+const connectDB = require("./src/config/db");
+const app = express();
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: "Too many requests from this IP, please try again later"
+})
+
+app.use(cors())
+app.use(helmet())
+app.use(limiter)
+app.use(express.json())
+app.use(express.urlencoded({extended : true}))
+
+
+
+
+
+const startServer = async () => {
+    await connectDB()
+    app.listen(ENV.PORT, () => {
+        console.log("Server started on port", ENV.PORT);
+    })
+}
+
+startServer()
