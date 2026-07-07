@@ -4,6 +4,7 @@ const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const  ENV= require("./src/config/env");
 const connectDB = require("./src/config/db");
+const authRouter = require("./src/routes/user.router")
 const app = express();
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -19,7 +20,7 @@ app.use(limiter)
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 
-
+app.use("/api/v1/auth", authRouter)
 
 
 
