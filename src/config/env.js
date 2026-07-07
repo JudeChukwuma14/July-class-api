@@ -10,6 +10,7 @@ const ENV = {
     GOOGLE_REFRESH_TOKEN: process.env.GOOGLE_REFRESH_TOKEN,
     GOOGLE_REDIRECT_URL: process.env.GOOGLE_REDIRECT_URL,
     GOOGLE_MAIL_HOST: process.env.GOOGLE_MAIL_HOST,
+    OTP_EXPIRY_MINUTES: process.env.OTP_EXPIRY_MINUTES
 }
 
 module.exports = ENV
