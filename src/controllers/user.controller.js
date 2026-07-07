@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt")
 
 let OTP_EXPIRY_MINUTES = Number(ENV.OTP_EXPIRY_MINUTES)
 
-const sendOtpEmail = async () => {
+const sendOtpEmail = async ({ userName, otp, email }) => {
     try {
         const html = await renderEmailTemplate("otpVerification", {
             userName,
