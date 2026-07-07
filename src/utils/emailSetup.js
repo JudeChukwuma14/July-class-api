@@ -30,7 +30,7 @@ const accessToken = async () => {
         return token
     }
     catch (error) {
-        console.error("Error retrieving access token:" error.message)
+        console.error("Error retrieving access token:", error.message)
         throw new Error(error.message)
     }
 }
@@ -40,7 +40,6 @@ const createTransporter = async () => {
 
     try {
         const token = await accessToken()
-        console.log(token)
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -56,7 +55,7 @@ const createTransporter = async () => {
         return transporter
 
     } catch (error) {
-        console.error("Error sending mail:" error.message)
+        console.error("Error sending mail:", error.message)
         throw new Error(error.message)
     }
 
@@ -70,7 +69,7 @@ const renderEmailTemplate = async (templateName, data) => {
         const templatePath = path.join(__dirname, "..", "views", "emails", `${templateName}.ejs`)
         return await ejs.renderFile(templatePath, data)
     } catch (error) {
-        console.error("Error rendering email Template" error.message)
+        console.error("Error rendering email Template", error.message)
         throw new Error(error.message)
     }
 }
