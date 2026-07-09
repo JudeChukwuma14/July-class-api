@@ -5,6 +5,7 @@ const rateLimit = require("express-rate-limit");
 const  ENV= require("./src/config/env");
 const connectDB = require("./src/config/db");
 const authRouter = require("./src/routes/user.router")
+const cookieParser = require("cookie-parser")
 const app = express();
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -19,6 +20,7 @@ app.use(helmet())
 app.use(limiter)
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
+app.use(cookieParser())
 
 app.use("/api/v1/auth", authRouter)
 
