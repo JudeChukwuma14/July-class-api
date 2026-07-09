@@ -41,7 +41,7 @@ const registerUser = async (req, res) => {
         const existingUser = await User.findOne({ email })
 
         if (existingUser) {
-            if (existingUser.isVarified) {
+            if (existingUser.isVerified) {
                 return res.status(400).json({ message: "Email already exists", success: false })
             }
 
@@ -68,7 +68,7 @@ const registerUser = async (req, res) => {
             password: hashPassword,
             otp,
             otpExpiresAt: new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000),
-            isVarified: false
+            isVerified: false
         })
 
 
@@ -86,8 +86,86 @@ const registerUser = async (req, res) => {
 }
 
 
+const veriftyOTP = async (req, res) => {
+    try {
+        const { email, otp } = req.body
 
+        if (!email || !otp) {
+            return res.status(400).json({ message: "Email and OTP are required", success: false })
+        }
+
+        const user = await User.findOne({ email })
+        if (!user) {
+            return res.status(400).json({ message: "User not found", success: false })
+        }
+
+        if (user.isVerified) {
+            return res.status(400).json({ message: "User is already verified", success: false })
+        }
+
+        if (user.otp !== otp) {
+            return res.status(400).json({ message: "Invalid OTP", success: false })
+        }
+
+        if (!user.otp || !user.otpExpiresAt || user.otpExpiresAt < new Date()) {
+            return res.status(400).json({ message: "OTP has expired", success: false })
+        }
+
+        user.isVerified = true
+        user.otp = undefined
+        user.otpExpiresAt = undefined
+        await user.save()
+
+        res.status(200).json({ message: "Account verified successfully", success: true })
+
+    } catch (error) {
+        console.log("Error verifing OTP ", error.message)
+        return res.status(500).json({ message: "Internal server error" + error.message, success: false })
+    }
+}
+
+
+const resendOtp = async (req, res) => {
+    try {
+        const { email } = req.body
+        if (!email) {
+            return res.status(400).json({ message: "Email is required", success: false })
+        }
+
+        const user = await User.findOne({ email })
+        if (!user) {
+            return res.status(400).json({ message: "User not found", success: false })
+        }
+
+        if (user.isVerified) {
+            return res.status(400).json({ message: "User is already verified", success: false })
+        }
+
+        const otp = generateOtp()
+        user.otp = otp
+        user.otpExpiresAt = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000)
+        await user.save()
+
+        res.status(200).json({ message: "OTP sent successfully", success: true })
+        await sendOtpEmail({ userName: user.userName, otp: user.otp, email: user.email })
+    } catch (error) {
+        console.log("Error resending OTP ", error.message)
+        return res.status(500).json({ message: "Internal server error" + error.message, success: false })
+    }
+}
+
+
+const loginUser = async(req, res)=>{
+    try {
+
+    } catch (error) {
+        console.log("Error logging in user ", error.message)
+        return res.status(500).json({ message: "Internal server error" + error.message, success: false })
+    }
+}
 
 module.exports = {
-    registerUser
+    registerUser,
+    veriftyOTP,
+    resendOtp
 }
