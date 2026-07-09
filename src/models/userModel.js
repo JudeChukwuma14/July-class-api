@@ -17,13 +17,11 @@ const userSchema = new mongoose.Schema({
     },
     otp: {
         type: String,
-        required: true
     },
     otpExpiresAt: {
         type: Date,
-        required: true
     },
-    isVarified: {
+    isVerified: {
         type: Boolean,
         default: false
     }
