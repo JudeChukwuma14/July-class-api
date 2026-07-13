@@ -1,5 +1,5 @@
 const express = require("express")
-const { registerUser, veriftyOTP, resendOtp, loginUser, logoutUser, refreshToken, forgetPassword, resetPassword } = require("../controllers/user.controller")
+const { registerUser, veriftyOTP, resendOtp, loginUser, logoutUser, refreshToken, forgetPassword, resetPassword } = require("../controllers/auth.controller")
 const registerRateLimiter = require("../utils/rateLimiter")
 const router = express.Router()
 
@@ -14,7 +14,7 @@ router.post("/login", loginUser)
 router.post("/logout", logoutUser)
 router.post("/refresh_token", refreshToken)
 router.post("/forget_password", registerRateLimiter, forgetPassword)
-router.post("/reset_password", registerRateLimiter, resetPassword)
+router.post("/reset_password", resetPassword)
 
 
 module.exports = router
