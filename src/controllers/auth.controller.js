@@ -1,7 +1,7 @@
 const ENV = require("../config/env")
 const { createUserAuth, loginUserAuth, forgetPasswordAuth, resetPasswordAuth } = require("../middlewares/joiValidations")
 const jwt = require("jsonwebtoken")
-const User = require("../models/userModel")
+const User = require("../models/auth.model")
 const { renderEmailTemplate, createTransporter } = require("../utils/emailSetup")
 const { generateOtp } = require("../utils/otpGenerator")
 const bcrypt = require("bcrypt")
