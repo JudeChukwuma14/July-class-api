@@ -12,8 +12,10 @@ const ENV = {
     GOOGLE_MAIL_HOST: process.env.GOOGLE_MAIL_HOST,
     OTP_EXPIRY_MINUTES: process.env.OTP_EXPIRY_MINUTES,
     JWT_SECRET: process.env.JWT_SECRET,
-    REFRESH_SECRET: process.env.REFRESH_SECRET
-    
+    REFRESH_SECRET: process.env.REFRESH_SECRET,
+    CLOUDINARY_NAME: process.env.CLOUDINARY_NAME,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET
 }
 
 module.exports = ENV

@@ -5,6 +5,7 @@ const rateLimit = require("express-rate-limit");
 const  ENV= require("./src/config/env");
 const connectDB = require("./src/config/db");
 const authRouter = require("./src/routes/auth.router")
+const productRouter = require("./src/routes/product.router")
 const cookieParser = require("cookie-parser")
 const app = express();
 const limiter = rateLimit({
@@ -23,7 +24,7 @@ app.use(express.urlencoded({extended : true}))
 app.use(cookieParser())
 
 app.use("/api/v1/auth", authRouter)
-
+app.use("/api/v1/product", productRouter)
 
 
 const startServer = async () => {
